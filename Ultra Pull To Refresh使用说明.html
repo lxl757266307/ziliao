@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ultra Pull To Refresh使用说明</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h1>Ultra Pull To Refresh 下拉刷新 上拉加载</h1>
+<p>Ultra Pull To Refresh 下载地址： <a href="https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh">https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh</a></p>
+<h2>一 功能介绍</h2>
+<p>android-Ultra-Pull-To-Refresh提供了一个下拉刷新、上拉加载的技术框架。继承于ViewGroup可以包含任何View。功能比SwipeRefreshLayout强大。支持所有的View: ListView, GridView, RecycleView，ScrollView, FrameLayout, 甚至 TextView.</p>
+<h2>二 使用方法</h2>
+<h3>1、添加依赖：</h3>
+<pre><code> compile 'in.srain.cube:ultra-ptr:1.0.11'   //只有下拉刷新
+ compile 'in.srain.cube:ptr-load-more:1.0.2'  //下拉上拉均有
+</code></pre>
+
+<h3>2、配置xml的布局文件：</h3>
+<p>有6个参数可配置</p>
+<p>阻尼系数：默认: 1.7f，越大，感觉下拉时越吃力。</p>
+<p>触发刷新时移动的位置比例：默认，1.2f，移动达到头部高度1.2倍时可触发刷新操作。</p>
+<p>回弹延时：默认 200ms，回弹到刷新高度所用时间</p>
+<p>头部回弹时间：默认1000ms</p>
+<p>刷新是保持头部：默认值 true.</p>
+<p>下拉刷新 / 释放刷新：默认为释放刷新</p>
+<pre><code>&lt;in.srain.cube.views.ptr.PtrClassicFrameLayout
+    android:id=&quot;@+id/pullToRefresh_layout&quot;
+    xmlns:cube_ptr=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    cube_ptr:ptr_duration_to_close=&quot;200&quot;
+    cube_ptr:ptr_duration_to_close_header=&quot;1000&quot;
+    cube_ptr:ptr_keep_header_when_refresh=&quot;true&quot;
+    cube_ptr:ptr_pull_to_fresh=&quot;false&quot;
+    cube_ptr:ptr_ratio_of_header_height_to_refresh=&quot;1.2&quot;
+    cube_ptr:ptr_resistance=&quot;1.7&quot;&gt; //阻尼系数
+</code></pre>
+
+<p>也可以在代码中定义</p>
+<pre><code>mPtrFrame.setResistance(1.7f);
+mPtrFrame.setRatioOfHeaderHeightToRefresh(1.2f);
+mPtrFrame.setDurationToClose(200);
+mPtrFrame.setDurationToCloseHeader(1000);    
+mPtrFrame.setPullToRefresh(false); //默认是false     
+mPtrFrame.setKeepHeaderWhenRefresh(true); //默认是true
+</code></pre>
+
+<h3>3、设置下拉刷新上拉加载组件的事件监听：</h3>
+<pre><code>调用mPtrFrame.setPtrHandler()方法来实现我们需要的模式。
+
+上拉下拉均有的模式： 
+mPtrFrame.setPtrHandler(new PtrDefaultHandler2() {
+//重写方法忽略
+}
+
+只有下拉的模式：
+mPtrFrame.setPtrHandler(new PtrDefaultHandler() {
+//重写方法忽略
+}
+</code></pre>
+
+<p>例如：</p>
+<p>下拉刷新、上拉加载均有的模式</p>
+<pre><code>mPtrFrame.setPtrHandler(new PtrDefaultHandler2() {
+    @Override
+    public void onLoadMoreBegin(final PtrFrameLayout frame) {
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                frame.refreshComplete();
+            }
+        }, 1000);
+    }
+
+    @Override
+    public void onRefreshBegin(final PtrFrameLayout frame) {
+        mPtrFrame.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                frame.refreshComplete();
+            }
+        }, 1000);
+    }
+});
+</code></pre>
+
+<p>只有下拉刷新的模式</p>
+<pre><code>    mPtrFrame.setPtrHandler(new PtrDefaultHandler() {
+        @Override
+        public void onRefreshBegin(PtrFrameLayout frame) {
+            mPtrFrame.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mPtrFrame.refreshComplete();
+                }
+            },1000);
+        }
+    });
+</code></pre>
+
+<h3>4、下拉时头部的实现风格：</h3>
+<h5>1、PtrClassicDefaultHeader 风格（经典）</h5>
+<p>PtrClassicDefaultHeader 实现了 PtrUIHandler 接口。</p>
+<p>如图：</p>
+<p><img src="http://7xsct4.com1.z0.glb.clouddn.com/16-9-7/49300083.jpg" /></p>
+<p>配置信息如下：</p>
+<pre><code>  //默认经典头布局
+PtrClassicDefaultHeader header =new PtrClassicDefaultHeader(this);
+
+ //默认经典底布局
+PtrClassicDefaultFooter footer=new PtrClassicDefaultFooter(this);
+
+ mPtrFrame.setHeaderView(header);
+ mPtrFrame.addPtrUIHandler(header);
+</code></pre>
+
+<h5>2、StoreHouse 风格</h5>
+<p>使用字符串, 支持A-Z, 0-7 以及 - .等 </p>
+<p>如图：</p>
+<p><img src="http://7xsct4.com1.z0.glb.clouddn.com/16-9-7/42455145.jpg" /></p>
+<p>配置信息如下：</p>
+<pre><code>       //闪动文字的头布局
+    StoreHouseHeader header = new StoreHouseHeader(this);
+    header.setPadding(0, PtrLocalDisplay.dp2px(20), 0, 0);
+
+    //使用资源文件中的路径信息
+   // header.initWithStringArray(R.array.refresh_color);
+
+   // 设置加载数据时显示的字符串，文本只支持0-9，英文字符
+    header.initWithString(&quot;xiala&quot;,20);
+    header.setDropHeight(300);
+    header.setBackgroundColor(Color.BLACK);
+    header.setTextColor(android.R.color.holo_blue_dark);
+
+    mPtrFrame.setHeaderView(header);
+    mPtrFrame.addPtrUIHandler(header);
+</code></pre>
+
+<h5>3、MaterialHeader 风格</h5>
+<p>如图：</p>
+<p><img src="http://7xsct4.com1.z0.glb.clouddn.com/16-9-7/18094130.jpg" /></p>
+<p>配置信息如下：</p>
+<pre><code>    MaterialHeader header=new MaterialHeader(this);       
+    int[] colors = getResources().getIntArray(R.array.refresh_color);
+    header.setColorSchemeColors(colors);
+    header.setLayoutParams(new PtrFrameLayout.LayoutParams(-1, -2));
+    header.setPadding(0, PtrLocalDisplay.dp2px(20), 0, PtrLocalDisplay.dp2px(20));
+
+    mPtrFrame.setHeaderView(header);
+    mPtrFrame.addPtrUIHandler(header);
+</code></pre>
+
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
